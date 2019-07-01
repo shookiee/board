@@ -39,14 +39,14 @@ public class PostControllerTest extends ControllerTestEnv {
 		/***Given***/
 
 		/***When***/
-		MvcResult mvcResult = mockMvc.perform(get("/post/read")
+		MvcResult mvcResult = mockMvc.perform(get("/post/readPost")
 													.param("postId", "1")).andReturn();
 		
 		ModelAndView mav = mvcResult.getModelAndView();
 		String viewName = mav.getViewName();
 		
 		/***Then***/
-		assertEquals("post/readPost", viewName);
+		assertEquals("post/read", viewName);
 	}
 	
 	
