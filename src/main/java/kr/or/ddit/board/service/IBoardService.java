@@ -1,11 +1,11 @@
-package kr.or.ddit.board.dao;
+package kr.or.ddit.board.service;
 
 import java.util.List;
 
 import kr.or.ddit.board.model.BoardVO;
 
-public interface IBoardDao {
-	
+public interface IBoardService {
+
 	/**
 	* Method : boardList
 	* 작성자 : PC23
@@ -41,7 +41,7 @@ public interface IBoardDao {
 	* Method : modifyBoard
 	* 작성자 : PC23
 	* 변경이력 :
-	* @param boardId
+	* @param boardVo
 	* @return
 	* Method 설명 : 게시판 사용여부 변경
 	*/
@@ -49,7 +49,7 @@ public interface IBoardDao {
 
 
 	/**
-	 * Method : boardVo
+	 * Method : getBoard
 	 * 작성자 : SHOOKIE
 	 * 변경이력 :
 	 * @param boardId
@@ -57,5 +57,4 @@ public interface IBoardDao {
 	 * Method 설명 : 입력받은 게시판 아이디와 일치하는 게시판의 정보
 	 */
 	BoardVO getBoard(int boardId);
-
 }

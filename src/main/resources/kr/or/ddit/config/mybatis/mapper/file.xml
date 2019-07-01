@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="file">
+<insert id="insertFile" parameterType="fileVo">
+INSERT INTO ATTACHFILE
+VALUES(
+	  #{fileId}
+	, #{postId}
+	, #{filePath}
+	, #{fileName}
+)
+</insert>
+
+<select id="getFileList" parameterType="int" resultType="fileVo">
+SELECT *
+FROM	ATTACHFILE
+WHERE	POSTID = #{postId}
+</select>
+<select id="getFile" parameterType="string" resultType="fileVo">
+SELECT *
+FROM	ATTACHFILE
+WHERE	FILEID = #{fileId}
+</select>
+
+<delete id="deleteFile" parameterType="int">
+DELETE 
+FROM	ATTACHFILE
+WHERE	POSTID = #{postId}
+</delete>
+</mapper>

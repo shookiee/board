@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+<!-- 게시판 리스트 조회 -->
+<select id="boardList" resultType="boardVo">
+SELECT *
+FROM	BOARD
+ORDER BY BOARDID
+</select>
+
+<!-- 게시판 전체 수 조회 -->
+<select id="boardMaxCnt" resultType="int">
+SELECT MAX(BOARDID) +1
+FROM	BOARD
+</select>
+
+<!-- 새로운 게시판 추가 -->
+<insert id="addBoard" parameterType="boardVo">
+INSERT INTO BOARD
+VALUES
+(
+	#{boardId}
+  , #{userId}
+  , #{boardName}
+  , #{use_yn}
+  , SYSDATE
+)
+</insert>
+
+
+<!-- 게시판 사용여부 변경 -->
+<update id="modifyBoard" parameterType="boardVo">
+UPDATE BOARD
+SET	   USE_YN = #{use_yn}
+WHERE  BOARDID = #{boardId}
+</update>
+
+<select id="getBoard" parameterType="int" resultType="boardVo">
+SELECT *
+FROM	BOARD
+WHERE	BOARDID = #{boardId}
+</select>
+</mapper>

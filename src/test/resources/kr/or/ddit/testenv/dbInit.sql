@@ -2,6 +2,9 @@ select *
 from not_exists_in_prd_db;
 
 -- users 테이블 초기화
+delete reply;
+delete post;
+delete board;
 delete users;
 
 Insert into PC23_TEST.USERS (USERID,NAME,ALIAS,PASS,ADDR1,ADDR2,ZIPCD,BIRTH,PATH,FILENAME) values ('brown','브라운','곰','c6347b73d5b1f7c77f8be828ee3e871c819578f23779c7d5e082ae2b36a44','대전광역시 중구 중앙로 76','영민빌딩 2층 대덕인재개발원','34940',to_date('00/08/08','RR/MM/DD'),'d:\upload\brown.png','brown.png');
@@ -111,4 +114,24 @@ Insert into PC23_TEST.USERS (USERID,NAME,ALIAS,PASS,ADDR1,ADDR2,ZIPCD,BIRTH,PATH
 Insert into PC23_TEST.USERS (USERID,NAME,ALIAS,PASS,ADDR1,ADDR2,ZIPCD,BIRTH,PATH,FILENAME) values ('user97','사용자97','사용자별명97','dc8de33ea13b2bae489451cd6f1dbed18484219e1dc12b5d38a07c2b94fa8',null,null,null,null,null,null);
 Insert into PC23_TEST.USERS (USERID,NAME,ALIAS,PASS,ADDR1,ADDR2,ZIPCD,BIRTH,PATH,FILENAME) values ('user99','사용자99','사용자별명99','20bbc85c57c06695ea7703d5cd9e64d10dd77c44850ec15d14da21b232d673',null,null,null,null,null,null);
 
+Insert into PC23_TEST.BOARD values (1,'brown','공지사항','y',SYSDATE);
+Insert into PC23_TEST.BOARD values (2,'brown','자유게시판','y',SYSDATE);
+
+Insert into PC23_TEST.POST (POSTID, USERID, BOARDID, PREFPOSTID, POSTTITLE, POSTCONTENT, POST_DT, POST_YN, GROUPID) values (1, 'brown', 1, NULL, '테스트 제목1', '테스트 내용 1', SYSDATE, 'y', 1);
+Insert into PC23_TEST.POST (POSTID, USERID, BOARDID, PREFPOSTID, POSTTITLE, POSTCONTENT, POST_DT, POST_YN, GROUPID) values (2, 'brown', 1, NULL, '테스트 제목1', '테스트 내용 1', SYSDATE, 'y', 2);
+Insert into PC23_TEST.POST (POSTID, USERID, BOARDID, PREFPOSTID, POSTTITLE, POSTCONTENT, POST_DT, POST_YN, GROUPID) values (3, 'brown', 1, NULL, '테스트 제목1', '테스트 내용 1', SYSDATE, 'y', 3);
+Insert into PC23_TEST.POST (POSTID, USERID, BOARDID, PREFPOSTID, POSTTITLE, POSTCONTENT, POST_DT, POST_YN, GROUPID) values (4, 'brown', 1, NULL, '테스트 제목1', '테스트 내용 1', SYSDATE, 'y', 4);
+Insert into PC23_TEST.POST (POSTID, USERID, BOARDID, PREFPOSTID, POSTTITLE, POSTCONTENT, POST_DT, POST_YN, GROUPID) values (5, 'brown', 1, NULL, '테스트 제목1', '테스트 내용 1', SYSDATE, 'y', 5);
+Insert into PC23_TEST.POST (POSTID, USERID, BOARDID, PREFPOSTID, POSTTITLE, POSTCONTENT, POST_DT, POST_YN, GROUPID) values (6, 'brown', 1, NULL, '테스트 제목1', '테스트 내용 1', SYSDATE, 'y', 6);
+Insert into PC23_TEST.POST (POSTID, USERID, BOARDID, PREFPOSTID, POSTTITLE, POSTCONTENT, POST_DT, POST_YN, GROUPID) values (7, 'brown', 1, NULL, '테스트 제목1', '테스트 내용 1', SYSDATE, 'y', 7);
+Insert into PC23_TEST.POST (POSTID, USERID, BOARDID, PREFPOSTID, POSTTITLE, POSTCONTENT, POST_DT, POST_YN, GROUPID) values (8, 'brown', 1, NULL, '테스트 제목1', '테스트 내용 1', SYSDATE, 'y', 8);
+Insert into PC23_TEST.POST (POSTID, USERID, BOARDID, PREFPOSTID, POSTTITLE, POSTCONTENT, POST_DT, POST_YN, GROUPID) values (9, 'brown', 1, NULL, '테스트 제목1', '테스트 내용 1', SYSDATE, 'y', 9);
+Insert into PC23_TEST.POST (POSTID, USERID, BOARDID, PREFPOSTID, POSTTITLE, POSTCONTENT, POST_DT, POST_YN, GROUPID) values (10, 'brown', 1, NULL, '테스트 제목1', '테스트 내용 1', SYSDATE, 'y', 10);
+Insert into PC23_TEST.POST (POSTID, USERID, BOARDID, PREFPOSTID, POSTTITLE, POSTCONTENT, POST_DT, POST_YN, GROUPID) values (11, 'brown', 1, NULL, '테스트 제목1', '테스트 내용 1', SYSDATE, 'y', 11);
+
+Insert into PC23_TEST.REPLY (REPLYID, POSTID, USERID, REPLYCONTENT, REPLY_DT, REPLY_YN) values (1, 1, 'sally', '테스트 댓글1', SYSDATE, 'y');
+Insert into PC23_TEST.REPLY (REPLYID, POSTID, USERID, REPLYCONTENT, REPLY_DT, REPLY_YN) values (2, 1, 'sally', '테스트 댓글1', SYSDATE, 'y');
+Insert into PC23_TEST.REPLY (REPLYID, POSTID, USERID, REPLYCONTENT, REPLY_DT, REPLY_YN) values (3, 11, 'sally', '테스트 댓글1', SYSDATE, 'y');
+Insert into PC23_TEST.REPLY (REPLYID, POSTID, USERID, REPLYCONTENT, REPLY_DT, REPLY_YN) values (4, 11, 'sally', '테스트 댓글1', SYSDATE, 'y');
+Insert into PC23_TEST.REPLY (REPLYID, POSTID, USERID, REPLYCONTENT, REPLY_DT, REPLY_YN) values (5, 1, 'sally', '테스트 댓글1', SYSDATE, 'y');
 commit;

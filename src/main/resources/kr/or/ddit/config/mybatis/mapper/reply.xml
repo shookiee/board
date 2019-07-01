@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reply">
+
+<!-- 댓글 전체 수 -->
+<select id="replyMaxCnt" resultType="int">
+SELECT  max(REPLYID) +1
+FROM	REPLY
+</select>
+
+
+<!-- 댓글 등록 -->
+<insert id="insertReply" parameterType="replyVo">
+INSERT INTO REPLY
+VALUES(
+	  #{replyId}
+	, #{postId}
+	, #{userId}
+	, #{replyContent}
+	, SYSDATE
+	, 'y'
+)
+</insert>
+
+
+<!-- 해당게시글 댓글리스트 -->
+<select id="replyList" parameterType="int" resultType="replyVo">
+SELECT *
+FROM	REPLY
+WHERE	POSTID = #{postId}
+</select>
+
+<!-- 게시글 삭제 시 해당 댓글 삭제(사용 여부만 미사용으로 업데이트 -->
+<update id="delReplyCnt" parameterType="int">
+UPDATE	  REPLY
+SET		  REPLYCONTENT = '삭제된 댓글 입니다.'
+		, REPLY_YN = 'n'
+WHERE	  POSTID = #{postId}		
+</update>
+
+<!-- 댓글 삭제 -->
+<update id="deleteReply" parameterType="int">
+UPDATE	  REPLY
+SET		  REPLYCONTENT = '삭제된 댓글 입니다.'
+		, REPLY_YN = 'n'
+WHERE	  REPLYID = #{replyId}		
+</update>
+
+
+<!-- 댓글 하나의 정보 -->
+<select id="getReply" parameterType="int" resultType="replyVo">
+SELECT *
+FROM	REPLY
+WHERE 	REPLYID = #{replyId}
+</select>
+</mapper>

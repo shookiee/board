@@ -1,20 +1,20 @@
-package kr.or.ddit.board.dao;
+package kr.or.ddit.board.service;
 
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
+import kr.or.ddit.board.dao.IBoardDao;
 import kr.or.ddit.board.model.BoardVO;
 
-@Repository
-public class BoardDao implements IBoardDao {
+@Service
+public class BoardService implements IBoardService {
 
-	@Resource(name="sqlSession")
-	SqlSessionTemplate sqlSession;
-	
+	@Resource(name="boardDao")
+	private IBoardDao boardDao;
+
 	
 	/**
 	* Method : boardList
@@ -25,25 +25,21 @@ public class BoardDao implements IBoardDao {
 	*/
 	@Override
 	public List<BoardVO> boardList() {
-		List<BoardVO> boardList = sqlSession.selectList("board.boardList");
-		return boardList;
+		return boardDao.boardList();
 	}
 
 	
 	/**
-	* Method : boardMaxCnt
+	* Method : boardMaxCntTest
 	* 작성자 : PC23
 	* 변경이력 :
-	* @return
 	* Method 설명 : 게시판 전체 수 조회
 	*/
 	@Override
 	public int boardMaxCnt() {
-		int boardCnt = (Integer)sqlSession.selectOne("board.boardMaxCnt");
-		
-		return boardCnt;
+		return boardDao.boardMaxCnt();
 	}
-
+	
 	
 	/**
 	* Method : addBoard
@@ -55,25 +51,21 @@ public class BoardDao implements IBoardDao {
 	*/
 	@Override
 	public int addBoard(BoardVO boardVo) {
-		int addBoard = sqlSession.insert("board.addBoard", boardVo);
-		
-		return addBoard;
+		return boardDao.addBoard(boardVo);
 	}
 
-	
+
 	/**
 	* Method : modifyBoard
 	* 작성자 : PC23
 	* 변경이력 :
-	* @param boardId
+	* @param boardVo
 	* @return
-	* Method 설명 : 게시판 사용여부 변경
+	* Method 설명 : 게시판 사용 여부 변경
 	*/
 	@Override
 	public int modifyBoard(BoardVO boardVo) {
-		int updateCnt = sqlSession.update("board.modifyBoard", boardVo);
-		
-		return updateCnt;
+		return boardDao.modifyBoard(boardVo);
 	}
 
 
@@ -87,10 +79,7 @@ public class BoardDao implements IBoardDao {
 	 */
 	@Override
 	public BoardVO getBoard(int boardId) {
-		BoardVO boardVo = sqlSession.selectOne("board.getBoard", boardId);
-		
-		return boardVo;
+		return boardDao.getBoard(boardId);
 	}
 
-	
 }

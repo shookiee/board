@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="post">
+<!-- 전체 게시글 리스트 조회 -->
+<select id="allPostList" resultType="postVo">
+SELECT *
+FROM	POST
+ORDER BY POSTID
+</select>
+
+<!-- 특정 게시판 게시글 조회 -->
+<select id="boardPostList" parameterType="int" resultType="postVo">
+SELECT *
+FROM POST
+WHERE BOARDID = #{boardId}
+</select>
+
+
+<!-- 게시판 게시글 갯수 -->
+<select id="postCnt" parameterType="int" resultType="int">
+SELECT COUNT(*)
+FROM POST P, BOARD B
+WHERE P.BOARDID = #{boardId}
+AND	  B.BOARDID = #{boardId}
+</select>
+
+
+<!-- 게시글 페이징 리스트 조회 -->
+<select id="postPagingList" parameterType="map" resultType="postVo">
+SELECT *
+FROM(
+    SELECT A.*, ROWNUM RN
+    FROM(
+        SELECT DISTINCT(PO.POSTID) POSTID, PO.PREFPOSTID, LPAD(' ', (LEVEL-1)*4) || PO.POSTTITLE POSTTITLE, LEVEL LV, PO.GROUPID, PO.POST_DT, PO.USERID, PO.POST_YN
+        FROM POST PO, BOARD BO
+        WHERE PO.BOARDID = #{boardId} AND BO.BOARDID = #{boardId}
+        START WITH PO.PREFPOSTID IS NULL
+        CONNECT BY PRIOR PO.POSTID = PO.PREFPOSTID
+        ORDER SIBLINGS BY PO.GROUPID DESC, PO.POSTID)A)B
+    WHERE B.RN &gt;= (#{page}-1)*#{pageSize}+1 
+    AND B.RN &lt;= #{page}*#{pageSize}
+</select>
+
+<!-- 게시글 추가 -->
+<insert id="insertPost" parameterType="postVo">
+INSERT INTO POST
+VALUES(
+	 #{postId}
+	,#{userId}
+	,#{boardId}
+	, NULL
+	,#{postTitle}
+	,#{postContent}
+	,SYSDATE
+	,'y'
+	,#{groupId}
+)
+</insert>
+
+<select id="postMaxCnt" resultType="int">
+SELECT MAX(POSTID) +1
+FROM POST
+</select>
+
+<select id="getPost" parameterType="int" resultType="postVo">
+SELECT *
+FROM POST
+WHERE POSTID = #{postId}
+</select>
+
+<!-- 게시글 수정 -->
+<update id="updatePost" parameterType="postVo">
+UPDATE	POST
+SET		POSTTITLE = #{postTitle}
+	  , POSTCONTENT = #{postContent}
+WHERE	POSTID = #{postId}
+</update>
+
+<!-- 답글 작성 -->
+<insert id="answerPost" parameterType="postVo">
+INSERT INTO POST
+VALUES (
+	 #{postId}
+	,#{userId}
+	,#{boardId}
+	,#{prefPostId}
+	,#{postTitle}
+	,#{postContent}
+	,SYSDATE
+	,'y'
+	,#{groupId}
+
+)
+</insert>
+
+
+<!-- 게시글 삭제(사용여부만 미사용으로 업데이트) -->
+<update id="deletePost" parameterType="postVo">
+UPDATE    POST
+SET		  POSTTITLE = '삭제된 게시글 입니다.'
+		, POSTCONTENT = '삭제된 게시글 입니다.'
+		, POST_YN = 'n'
+WHERE	POSTID = #{postId}
+</update>
+</mapper>

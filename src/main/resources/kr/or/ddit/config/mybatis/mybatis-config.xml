@@ -6,12 +6,20 @@
 
 	<typeAliases>
 		<typeAlias alias="userVo" type="kr.or.ddit.user.model.UserVO" />
-<!-- 		<typeAlias alias="pageVo" type="kr.or.ddit.paging.model.PageVO"/> -->
+				<typeAlias alias="boardVo" type="kr.or.ddit.board.model.BoardVO" />
+		<typeAlias alias="postVo" type="kr.or.ddit.post.model.PostVO" />
+		<typeAlias alias="pageVo" type="kr.or.ddit.paging.model.PageVO" />
+		<typeAlias alias="fileVo" type="kr.or.ddit.attachFile.model.AttachFileVO" />
+		<typeAlias alias="replyVo" type="kr.or.ddit.reply.model.ReplyVO" />
 	</typeAliases>
 
 
 	<mappers>
 		<mapper resource="kr/or/ddit/config/mybatis/mapper/user.xml" />
+		<mapper resource="kr/or/ddit/config/mybatis/mapper/board.xml" />
+		<mapper resource="kr/or/ddit/config/mybatis/mapper/post.xml" />
+		<mapper resource="kr/or/ddit/config/mybatis/mapper/file.xml" />
+		<mapper resource="kr/or/ddit/config/mybatis/mapper/reply.xml" />
 	</mappers>
 
 </configuration>
