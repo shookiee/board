@@ -27,9 +27,7 @@ public class PostDao implements IPostDao {
 	*/
 	@Override
 	public List<PostVO> allPostList() {
-		List<PostVO> allPostList = sqlSession.selectList("post.allPostList");
-		
-		return allPostList;
+		return sqlSession.selectList("post.allPostList");
 	}
 	
 	
@@ -42,9 +40,7 @@ public class PostDao implements IPostDao {
 	*/
 	@Override
 	public List<PostVO> boardPostList(int boardId) {
-		List<PostVO> boardPostList = sqlSession.selectList("post.boardPostList", boardId);
-		
-		return boardPostList;
+		return sqlSession.selectList("post.boardPostList", boardId);
 	}
 
 	
@@ -58,9 +54,7 @@ public class PostDao implements IPostDao {
 	*/
 	@Override
 	public int postCnt(int boardId) {
-		int postCnt = (Integer)sqlSession.selectOne("post.postCnt", boardId);
-		
-		return postCnt;
+		return (Integer)sqlSession.selectOne("post.postCnt", boardId);
 	}
 
 
@@ -74,9 +68,7 @@ public class PostDao implements IPostDao {
 	 */
 	@Override
 	public List<PostVO> postPagingList(Map<String, Object> map) {
-		List<PostVO> postPagingList = sqlSession.selectList("post.postPagingList", map);
-		
-		return postPagingList;
+		return sqlSession.selectList("post.postPagingList", map);
 	}
 
 
@@ -90,9 +82,7 @@ public class PostDao implements IPostDao {
 	 */
 	@Override
 	public int insertPost(PostVO postVo) {
-		int insertCnt =sqlSession.insert("post.insertPost", postVo);
-		
-		return insertCnt;
+		return sqlSession.insert("post.insertPost", postVo);
 	}
 
 
@@ -105,8 +95,7 @@ public class PostDao implements IPostDao {
 	 */
 	@Override
 	public int postMaxCnt() {
-		int postMaxCnt = sqlSession.selectOne("post.postMaxCnt");
-		return postMaxCnt;
+		return sqlSession.selectOne("post.postMaxCnt");
 	}
 
 
@@ -120,8 +109,7 @@ public class PostDao implements IPostDao {
 	 */
 	@Override
 	public PostVO getPost(int postId) {
-		PostVO postVo = sqlSession.selectOne("post.getPost", postId);
-		return postVo;
+		return sqlSession.selectOne("post.getPost", postId);
 	}
 
 
@@ -135,9 +123,7 @@ public class PostDao implements IPostDao {
 	 */
 	@Override
 	public int updatePost(PostVO postVo) {
-		int updateCnt = sqlSession.update("post.updatePost", postVo);
-
-		return updateCnt;
+		return sqlSession.update("post.updatePost", postVo);
 	}
 
 
@@ -151,9 +137,7 @@ public class PostDao implements IPostDao {
 	 */
 	@Override
 	public int answerPost(PostVO postVo) {
-		int answerPost = sqlSession.insert("post.answerPost", postVo);
-
-		return answerPost;
+		return sqlSession.insert("post.answerPost", postVo);
 	}
 
 
@@ -167,9 +151,7 @@ public class PostDao implements IPostDao {
 	 */
 	@Override
 	public int deletePost(int postId) {
-		int deleteCnt = sqlSession.update("post.deletePost", postId);
-		
-		return deleteCnt;
+		return sqlSession.update("post.deletePost", postId);
 	}
 
 	

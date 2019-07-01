@@ -25,8 +25,7 @@ public class BoardDao implements IBoardDao {
 	*/
 	@Override
 	public List<BoardVO> boardList() {
-		List<BoardVO> boardList = sqlSession.selectList("board.boardList");
-		return boardList;
+		return  sqlSession.selectList("board.boardList");
 	}
 
 	
@@ -39,9 +38,7 @@ public class BoardDao implements IBoardDao {
 	*/
 	@Override
 	public int boardMaxCnt() {
-		int boardCnt = (Integer)sqlSession.selectOne("board.boardMaxCnt");
-		
-		return boardCnt;
+		return (Integer)sqlSession.selectOne("board.boardMaxCnt");
 	}
 
 	
@@ -55,9 +52,7 @@ public class BoardDao implements IBoardDao {
 	*/
 	@Override
 	public int addBoard(BoardVO boardVo) {
-		int addBoard = sqlSession.insert("board.addBoard", boardVo);
-		
-		return addBoard;
+		return sqlSession.insert("board.addBoard", boardVo);
 	}
 
 	
@@ -71,9 +66,7 @@ public class BoardDao implements IBoardDao {
 	*/
 	@Override
 	public int modifyBoard(BoardVO boardVo) {
-		int updateCnt = sqlSession.update("board.modifyBoard", boardVo);
-		
-		return updateCnt;
+		return sqlSession.update("board.modifyBoard", boardVo);
 	}
 
 
@@ -87,9 +80,7 @@ public class BoardDao implements IBoardDao {
 	 */
 	@Override
 	public BoardVO getBoard(int boardId) {
-		BoardVO boardVo = sqlSession.selectOne("board.getBoard", boardId);
-		
-		return boardVo;
+		return sqlSession.selectOne("board.getBoard", boardId);
 	}
 
 	

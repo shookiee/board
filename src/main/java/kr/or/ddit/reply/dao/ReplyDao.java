@@ -26,9 +26,7 @@ public class ReplyDao implements IReplyDao {
 	 */
 	@Override
 	public int replyMaxCnt() {
-		int replyMaxCnt = sqlSession.selectOne("reply.replyMaxCnt");
-		
-		return replyMaxCnt;
+		return sqlSession.selectOne("reply.replyMaxCnt");
 	}
 	
 	
@@ -42,9 +40,7 @@ public class ReplyDao implements IReplyDao {
 	 */
 	@Override
 	public int insertReply(ReplyVO replyVo) {
-		int insertReply = sqlSession.insert("reply.insertReply", replyVo);
-		
-		return insertReply;
+		return sqlSession.insert("reply.insertReply", replyVo);
 	}
 
 
@@ -58,9 +54,7 @@ public class ReplyDao implements IReplyDao {
 	 */
 	@Override
 	public List<ReplyVO> replyList(int postId) {
-		List<ReplyVO> replyList = sqlSession.selectList("reply.replyList", postId);
-		
-		return replyList;
+		return sqlSession.selectList("reply.replyList", postId);
 	}
 
 
@@ -74,9 +68,7 @@ public class ReplyDao implements IReplyDao {
 	 */
 	@Override
 	public int delReplyCnt(int postId) {
-		int delReplyCnt = sqlSession.update("reply.delReplyCnt", postId);
-
-		return delReplyCnt;
+		return sqlSession.update("reply.delReplyCnt", postId);
 	}
 
 
@@ -90,9 +82,7 @@ public class ReplyDao implements IReplyDao {
 	 */
 	@Override
 	public int deleteReply(int replyId) {
-		int deleteReply = sqlSession.update("reply.deleteReply", replyId);
-		
-		return deleteReply;
+		return sqlSession.update("reply.deleteReply", replyId);
 	}
 
 
@@ -106,9 +96,7 @@ public class ReplyDao implements IReplyDao {
 	 */
 	@Override
 	public ReplyVO getReply(int replyId) {
-		ReplyVO replyVo = sqlSession.selectOne("reply.getReply", replyId);
-		
-		return replyVo;
+		return sqlSession.selectOne("reply.getReply", replyId);
 	}
 
 }
