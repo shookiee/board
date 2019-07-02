@@ -64,7 +64,7 @@ public class PostService implements IPostService {
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("postList", postPagingList);
-		resultMap.put("pagination", pagination);
+		resultMap.put("paginationSize", pagination);
 		
 		return resultMap;
 	}

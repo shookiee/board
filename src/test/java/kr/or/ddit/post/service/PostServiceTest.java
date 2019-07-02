@@ -75,7 +75,7 @@ public class PostServiceTest extends LogicTestEnv {
 		/***When***/
 		Map<String, Object> resultMap = postService.postPagingList(map);
 		List<PostVO> postList = (List<PostVO>) resultMap.get("postList");
-		int pagination = (int) resultMap.get("pagination");
+		int pagination = (int) resultMap.get("paginationSize");
 		
 		/***Then***/
 		assertEquals(10, postList.size());
