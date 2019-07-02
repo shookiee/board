@@ -7,8 +7,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 import org.junit.Test;
@@ -17,7 +15,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.ddit.board.model.BoardVO;
-import kr.or.ddit.paging.model.PageVO;
 import kr.or.ddit.post.model.PostVO;
 import kr.or.ddit.testenv.ControllerTestEnv;
 
@@ -148,4 +145,100 @@ public class PostControllerTest extends ControllerTestEnv {
 		assertEquals("post/modify", viewName);
 	}
 
+	
+	/**
+	* Method : modifyPostTest
+	* 작성자 : PC23
+	* 변경이력 :
+	* Method 설명 : 게시글 수정 테스트
+	 * @throws Exception 
+	*/
+	@Test
+	public void modifyPostTest() throws Exception {
+		/***Given***/
+		File f = new File("src/test/resources/kr/or/ddit/testenv/sally.png");
+		MockMultipartFile file = new MockMultipartFile("uploadFile", f.getName(), "", new FileInputStream(f));
+
+		PostVO postVo = new PostVO();
+		
+		/***When***/
+		mockMvc.perform(fileUpload("/post/modifyPost").file(file)
+										.param("postId", "1")
+										.param("postTitle", "Title")
+										.param("smarteditor", "Content"))
+										.andExpect(view().name("redirect:/post/readPost"));
+		
+		/***Then***/
+	}
+	
+	
+	/**
+	* Method : deletePostTest
+	* 작성자 : PC23
+	* 변경이력 :
+	* Method 설명 : 게시글 삭제 테스트
+	 * @throws Exception 
+	*/
+	@Test
+	public void deletePostTest() throws Exception {
+		/***Given***/
+		PostVO postVo = new PostVO();
+		
+		/***When***/
+		MvcResult mvcResult = mockMvc.perform(get("/post/deletePost")
+													.param("postId", "1")).andReturn();
+		
+		ModelAndView mav = mvcResult.getModelAndView();
+		String viewName = mav.getViewName();
+		
+		/***Then***/
+		assertEquals("redirect:/post/list", viewName);
+	}
+	
+	
+	/**
+	* Method : answerPostViewTest
+	* 작성자 : PC23
+	* 변경이력 :
+	* Method 설명 : 답글 작성 화면 요청 테스트
+	 * @throws Exception 
+	*/
+	@Test
+	public void answerPostViewTest() throws Exception {
+		/***Given***/
+
+		/***When***/
+		MvcResult mvcResult = mockMvc.perform(get("/post/answerPost")
+													.param("postId", "1")).andReturn();
+
+		ModelAndView mav = mvcResult.getModelAndView();
+		String viewName = mav.getViewName();
+		
+		/***Then***/
+		assertEquals("post/answer", viewName);
+	}
+	
+	
+	/**
+	* Method : answerPostTest
+	* 작성자 : PC23
+	* 변경이력 :
+	* Method 설명 : 답글 작성 테스트
+	 * @throws Exception 
+	*/
+	@Test
+	public void answerPostTest() throws Exception {
+		/***Given***/
+		File f = new File("src/test/resources/kr/or/ddit/testenv/sally.png");
+		MockMultipartFile file = new MockMultipartFile("uploadFile", f.getName(), "", new FileInputStream(f));
+
+		/***When***/
+		mockMvc.perform(fileUpload("/post/answerPost").file(file)
+																						.param("postId", "1")
+																						.param("userId", "brown")
+																						.param("postTitle", "테스트")
+																						.param("smarteditor", "테스트 내용"))
+																						.andExpect(view().name("redirect:/post/readPost"));
+	}
+	
 }

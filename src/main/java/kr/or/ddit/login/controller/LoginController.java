@@ -1,5 +1,7 @@
 package kr.or.ddit.login.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import kr.or.ddit.board.model.BoardVO;
+import kr.or.ddit.board.service.IBoardService;
 import kr.or.ddit.encrypt.kisa.sha256.KISA_SHA256;
 import kr.or.ddit.user.model.UserVO;
 import kr.or.ddit.user.service.IUserService;
@@ -18,6 +22,9 @@ public class LoginController {
 	
 	@Resource(name="userService")
 	private IUserService userService;
+	
+	@Resource(name="boardService")
+	private IBoardService boardService;
 	
 	/**
 	* Method : loginView
@@ -54,6 +61,9 @@ public class LoginController {
 		if(userVo != null && encryptPassword.equals(userVo.getPass())) {
 			remembermeCookie(userId, rememberme, response);
 			
+			List<BoardVO> boardList = boardService.boardList();
+			
+			session.setAttribute("boardList", boardList);
 			session.setAttribute("USER_INFO", userVo);
 			
 			return "main";

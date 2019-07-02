@@ -59,7 +59,7 @@ public class BoardControllerTest extends ControllerTestEnv{
 		String viewName = mav.getViewName();
 		
 		/***Then***/
-		assertEquals("redirect:/main", viewName);
+		assertEquals("board/board", viewName);
 	}
 
 	
@@ -74,14 +74,14 @@ public class BoardControllerTest extends ControllerTestEnv{
 	public void modifyBoard() throws Exception {
 		/***Given***/
 		String userId = "brown";
-		UserVO userVO = new UserVO();
-		userVO.setUserId(userId);
+		UserVO userVo = new UserVO();
+		userVo.setUserId(userId);
 
 		int boardId = 1;
 		
 		/***When***/
 		MvcResult mvcResult = mockMvc.perform(post("/board/modifyBoard")
-													.sessionAttr("USER_INFO", userVO)
+													.sessionAttr("USER_INFO", userVo)
 													.param("boardId", "1")
 													.param("updateBoardName", "공지사항")
 													.param("updateUse_yn", "n")).andReturn();

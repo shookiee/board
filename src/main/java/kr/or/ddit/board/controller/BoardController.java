@@ -3,12 +3,12 @@ package kr.or.ddit.board.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -46,15 +46,14 @@ public class BoardController {
 	 * Method 설명 : 게시판 추가
 	 */
 	@RequestMapping(path = "/addBoard", method = RequestMethod.POST)
-	public String addBoard(HttpSession session, BoardVO boardVo) {
-		boardVo.setBoardId(boardService.boardMaxCnt());
-		
+	public String addBoard(HttpSession session, String boardName, String use_yn) {
 		String userId = ((UserVO) session.getAttribute("USER_INFO")).getUserId();
-		boardVo.setUserId(userId);
+
+		BoardVO boardVo = new BoardVO(boardService.boardMaxCnt(), userId, boardName, use_yn);
 		
 		if(boardService.addBoard(boardVo) == 1) {
 			session.setAttribute("boardList", boardService.boardList());
-			return "redirect:/main";
+			return "board/board";
 		} else {
 			return "board/board";
 		}

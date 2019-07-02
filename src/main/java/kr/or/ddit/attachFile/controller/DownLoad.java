@@ -2,70 +2,74 @@ package kr.or.ddit.attachFile.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Map;
 
-import javax.servlet.ServletException;
+import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.View;
+
 import kr.or.ddit.attachFile.model.AttachFileVO;
-import kr.or.ddit.attachFile.service.AttachFileService;
 import kr.or.ddit.attachFile.service.IAttachFileService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-@WebServlet("/downLoad")
-@MultipartConfig(maxFileSize=1024*1024*3, maxRequestSize=1024*1024*15)
-public class DownLoad extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-	
-	private static final Logger logger = LoggerFactory
-			.getLogger(DownLoad.class);
-	
+@RequestMapping(path = "/downLoad", method = RequestMethod.POST)
+@Controller
+public class DownLoad implements View {
+    
+	@Resource(name="attachFileService")
 	private IAttachFileService fileService;
 	
 	@Override
-	public void init() throws ServletException {
-		fileService = new AttachFileService();
-	}
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	public String getContentType() {
+		return "img";
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		logger.debug("fileDownload doPost()");
-	
-		String fileId = request.getParameter("fileId");
-		AttachFileVO fileVo = fileService.getFile(fileId);
-		String fileName = fileVo.getFileName();
-		logger.debug("fileVo : {}", fileVo);
+	@Override
+	public void render(Map<String, ?> model, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		
-		response.setContentType("application/octet-stream");
-		response.setHeader("Content-Disposition", "attachment;filename="+fileName);
+		AttachFileVO fileVo = (AttachFileVO) model.get("fileVo");
 		
-		File file = new File(fileId);
-		FileInputStream fileInputStream = new FileInputStream(file);
-		ServletOutputStream servletOutputStream = response.getOutputStream();
+		ServletOutputStream sos = null;
 		
-		byte[] b = new byte[1024];
-		int data = 0;
+		try {
+			sos = response.getOutputStream();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		FileInputStream fis = null;
+		String filePath = null;
 		
-		while((data=(fileInputStream.read(b,0,b.length))) != -1){
-			servletOutputStream.write(b,0,data);
+		if(fileVo.getFilePath() != null) {
+			filePath= fileVo.getFilePath();
+		} else {
+			filePath = request.getServletContext().getRealPath("/img/no_image.gif");
 		}
 		
-		servletOutputStream.flush();
-		servletOutputStream.close();
-		fileInputStream.close();
+		File file = new File(filePath);
+		try {
+			fis = new FileInputStream(file);
+			int len = 0;
+			byte[] buffer = new byte[1024];
+			while((len=fis.read(buffer, 0, 1024)) != -1) {
+				sos.write(buffer);
+			}	
+			fis.close();
+			sos.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
+	
 	}
 
 }

@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
-import org.apache.poi.hpsf.Array;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -74,6 +73,7 @@ public class PostController {
 		model.addAttribute("paginationSize", paginationSize);
 		model.addAttribute("boardVo", boardService.getBoard(boardId));
 		
+		logger.debug("postController boardId : {}", boardId);
 		return "post/post";
 	}
 	
@@ -145,11 +145,13 @@ public class PostController {
 			if(files != null ) {
 				int result = 0;
 				List<AttachFileVO> uploadFileList = new ArrayList<AttachFileVO>();
+				
 				for (MultipartFile file : files) {
 					String path = PartUtil.getUploadPath();
 					String ext = PartUtil.getExt(file.getOriginalFilename());
 					String fileName = UUID.randomUUID().toString();
 					String fileId = path + File.separator + fileName + ext;
+				
 					AttachFileVO fileVO = new AttachFileVO(fileId, postId, path, file.getOriginalFilename());
 					uploadFileList.add(fileVO);
 				}
@@ -176,11 +178,152 @@ public class PostController {
 	*/
 	@RequestMapping(path = "/modifyPost", method = RequestMethod.GET)
 	public String modifyPostView(int postId, Model model) {
+		PostVO postVo = new PostVO();
+		postVo = postService.getPost(postId);
 		
 		model.addAttribute("postId", postId);
+		model.addAttribute("postVo", postVo);
 		
 		return "post/modify";
 	}
 	
 	
+	/**
+	* Method : modifyPost
+	* 작성자 : PC23
+	* 변경이력 :
+	* @param postVo
+	* @param files
+	* @param redirectAttributes
+	* @return
+	* Method 설명 : 게시글 수정
+	*/
+	@RequestMapping(path = "/modifyPost", method = RequestMethod.POST)
+	public String modifyPost(int postId ,String userId, String postTitle, String smarteditor, MultipartFile[] files, RedirectAttributes redirectAttributes) {
+		logger.debug("PostController modifyPost()");
+		
+		PostVO postVo = new PostVO();
+		postVo.setUserId(userId);
+		postVo.setPostId(postId);
+		postVo.setPostTitle(postTitle);
+		postVo.setPostContent(smarteditor);
+		
+		int updateCnt = postService.updatePost(postVo);
+		
+		
+		if(updateCnt == 1) {
+			if(files != null ) {
+				int result = 0;
+				List<AttachFileVO> uploadFileList = new ArrayList<AttachFileVO>();
+				
+				for (MultipartFile file : files) {
+					String path = PartUtil.getUploadPath();
+					String ext = PartUtil.getExt(file.getOriginalFilename());
+					String fileName = UUID.randomUUID().toString();
+					String fileId = path + File.separator + fileName + ext;
+				
+					AttachFileVO fileVo = new AttachFileVO(fileId, postVo.getPostId(), path, file.getOriginalFilename());
+					uploadFileList.add(fileVo);
+				}
+				fileService.insertFile(uploadFileList);
+				
+			}
+			redirectAttributes.addAttribute("postId", postVo.getPostId());
+			return "redirect:/post/readPost";
+		} else {
+			redirectAttributes.addAttribute("postId", postVo.getPostId());
+			return "redirect:/post/modify";
+		}
+	}
+	
+	
+	/**
+	* Method : deletPost
+	* 작성자 : PC23
+	* 변경이력 :
+	* @return
+	* Method 설명 : 게시글 삭제
+	*/
+	@RequestMapping(path = "/deletePost", method = RequestMethod.GET)
+	public String deletPost(int postId, RedirectAttributes redirectAttributes) {
+		PostVO postVo = postService.getPost(postId);
+		int boardId = postVo.getBoardId();
+		
+		int deleteCnt = postService.deletePost(postId);
+		
+		if(deleteCnt == 1) {
+			int delReply = replyService.deleteReply(postId);
+		}
+		redirectAttributes.addAttribute("boardId", boardId);
+		return "redirect:/post/list";
+	}
+	
+	
+	/**
+	* Method : answerPostView
+	* 작성자 : PC23
+	* 변경이력 :
+	* @param userId
+	* @param postId
+	* @param model
+	* @return
+	* Method 설명 : 답글 작성 화면 요청
+	*/
+	@RequestMapping(path = "/answerPost", method = RequestMethod.GET)
+	public String answerPostView(String userId, int postId, Model model) {
+		model.addAttribute("postId", postId);
+		return "post/answer";
+	}
+	
+	
+	/**
+	* Method : answerPost
+	* 작성자 : PC23
+	* 변경이력 :
+	* @param postId
+	* @param userId
+	* @param postTitle
+	* @param smarteditor
+	* @param files
+	* @param redirectAttributes
+	* @return
+	* Method 설명 : 답글 작성
+	*/
+	@RequestMapping(path = "/answerPost", method = RequestMethod.POST)
+	public String answerPost(int postId, String userId, String postTitle, String smarteditor,
+													MultipartFile[] files, RedirectAttributes redirectAttributes) {
+		int prefPostId = postId;
+		
+		PostVO prefPostVo = postService.getPost(prefPostId);
+		
+		int groupId = prefPostVo.getGroupId();
+		int boardId = prefPostVo.getBoardId();
+		postId = postService.postMaxCnt();
+		
+		PostVO postVo = new PostVO(postId, userId, boardId, prefPostId, postTitle, smarteditor, "y", groupId, boardId);
+		
+		int answerPost = postService.answerPost(postVo);
+		
+		if(answerPost == 1) {
+			if(files != null ) {
+				int result = 0;
+				List<AttachFileVO> uploadFileList = new ArrayList<AttachFileVO>();
+				
+				for (MultipartFile file : files) {
+					String path = PartUtil.getUploadPath();
+					String ext = PartUtil.getExt(file.getOriginalFilename());
+					String fileName = UUID.randomUUID().toString();
+					String fileId = path + File.separator + fileName + ext;
+				
+					AttachFileVO fileVO = new AttachFileVO(fileId, postVo.getPostId(), path, file.getOriginalFilename());
+					uploadFileList.add(fileVO);
+				}
+				fileService.insertFile(uploadFileList);
+				
+			}
+			redirectAttributes.addAttribute("postId", postVo.getPostId());
+			return "redirect:/post/readPost";
+		}
+		return "redirect:/post/answerPost";
+	}
 }
