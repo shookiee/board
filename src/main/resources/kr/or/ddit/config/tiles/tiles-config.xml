@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<definition name="layout"
+		template="/WEB-INF/views/common/layout.jsp">
+		<put-attribute name="header"
+			value="/WEB-INF/views/common/header.jsp" />
+		<put-attribute name="left"
+			value="/WEB-INF/views/common/left.jsp" />
+		<put-attribute name="body" value="" />
+	</definition>
+
+	<!-- main -->
+	<definition name="tiles.main" extends="layout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/main.jsp" />
+	</definition>
+
+	<!-- board 관리 화면 -->
+	<definition name="tiles.board" extends="layout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/board/board.jsp" />
+	</definition>
+
+	<!-- post 페이징 리스트  화면 -->
+	<definition name="tiles.post" extends="layout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/post/post.jsp" />
+	</definition>
+
+	<!-- post 조회 화면 -->
+	<definition name="tiles.read" extends="layout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/post/read.jsp" />
+	</definition>
+
+	<!-- post 작성 화면 -->
+	<definition name="tiles.form" extends="layout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/post/postForm.jsp" />
+	</definition>
+
+	<!-- post 수정 화면 -->
+	<definition name="tiles.modify" extends="layout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/post/modify.jsp" />
+	</definition>
+
+	<!-- post 답글작성 화면 -->
+	<definition name="tiles.answer" extends="layout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/post/answer.jsp" />
+	</definition>
+
+
+
+</tiles-definitions>

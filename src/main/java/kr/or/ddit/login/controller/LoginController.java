@@ -37,7 +37,7 @@ public class LoginController {
 	@RequestMapping(path = "/login", method = RequestMethod.GET)
 	public String loginView(HttpSession session) {
 		if(session.getAttribute("USER_INFO") != null ) {
-			return "main";					// /WEB-INF/views/main.jsp
+			return "tiles.main";					// /WEB-INF/views/main.jsp
 		} else {
 			return "login/login";		//	/WEB-INF/views/login/login.jsp
 		}
@@ -66,7 +66,7 @@ public class LoginController {
 			session.setAttribute("boardList", boardList);
 			session.setAttribute("USER_INFO", userVo);
 			
-			return "main";
+			return "tiles.main";
 		
 		} else {
 			return "login/login";

@@ -34,7 +34,7 @@ public class BoardController {
 	 */
 	@RequestMapping("/manager")
 	public String boardManager() {
-		return "board/board";
+		return "tiles.board";
 	}
 	
 	/**
@@ -52,9 +52,9 @@ public class BoardController {
 		
 		if(boardService.addBoard(boardVo) == 1) {
 			session.setAttribute("boardList", boardService.boardList());
-			return "board/board";
+			return "tiles.board";
 		} else {
-			return "board/board";
+			return "tiles.board";
 		}
 		
 	}
@@ -91,7 +91,7 @@ public class BoardController {
 			session.setAttribute("boardList", boardList);
 			return "redirect:/board/manager";
 		} else {
-			return "/main";
+			return "tiles.main";
 		}
 		
 	}

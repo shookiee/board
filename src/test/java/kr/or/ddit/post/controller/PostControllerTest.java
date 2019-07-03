@@ -7,6 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import org.junit.Test;
@@ -45,7 +47,7 @@ public class PostControllerTest extends ControllerTestEnv {
 		BoardVO boardVo = (BoardVO) mav.getModelMap().get("boardVo");
 		
 		/***Then***/
-		assertEquals("post/post", viewName);
+		assertEquals("tiles.post", viewName);
 		assertEquals(10, postList.size());
 		assertEquals(2, paginationSize);
 		assertEquals("공지사항", boardVo.getBoardName());
@@ -71,7 +73,7 @@ public class PostControllerTest extends ControllerTestEnv {
 		String viewName = mav.getViewName();
 		
 		/***Then***/
-		assertEquals("post/read", viewName);
+		assertEquals("tiles.read", viewName);
 	}
 	
 	
@@ -95,7 +97,7 @@ public class PostControllerTest extends ControllerTestEnv {
 		String viewName = mav.getViewName();
 		
 		/***Then***/
-		assertEquals("post/postForm", viewName);
+		assertEquals("tiles.form", viewName);
 	}
 	
 	
@@ -142,7 +144,7 @@ public class PostControllerTest extends ControllerTestEnv {
 		String viewName = mav.getViewName();
 		
 		/***Then***/
-		assertEquals("post/modify", viewName);
+		assertEquals("tiles.modify", viewName);
 	}
 
 	
@@ -216,7 +218,7 @@ public class PostControllerTest extends ControllerTestEnv {
 		String viewName = mav.getViewName();
 		
 		/***Then***/
-		assertEquals("post/answer", viewName);
+		assertEquals("tiles.answer", viewName);
 	}
 	
 	
@@ -241,5 +243,5 @@ public class PostControllerTest extends ControllerTestEnv {
 																						.param("smarteditor", "테스트 내용"))
 																						.andExpect(view().name("redirect:/post/readPost"));
 	}
-	
+
 }

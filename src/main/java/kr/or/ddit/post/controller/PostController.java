@@ -75,7 +75,7 @@ public class PostController {
 		model.addAttribute("boardVo", boardService.getBoard(boardId));
 		
 		logger.debug("postController boardId : {}", boardId);
-		return "post/post";
+		return "tiles.post";
 	}
 	
 	
@@ -105,7 +105,7 @@ public class PostController {
 		List<ReplyVO> replyList = replyService.replyList(postId);
 		model.addAttribute("replyList", replyList);
 		
-		return "post/read";
+		return "tiles.read";
 	}
 	
 	
@@ -123,7 +123,7 @@ public class PostController {
 	public String postFormView(String userId, int boardId, Model model) {
 		model.addAttribute("boardId", boardId);
 		model.addAttribute("userId", userId);
-		return "post/postForm";
+		return "tiles.form";
 	}
 	
 	
@@ -192,7 +192,7 @@ public class PostController {
 		model.addAttribute("postVo", postVo);
 		model.addAttribute("fileList", fileList);
 		
-		return "post/modify";
+		return "tiles.modify";
 	}
 	
 	
@@ -209,7 +209,6 @@ public class PostController {
 	@RequestMapping(path = "/modifyPost", method = RequestMethod.POST)
 	public String modifyPost(int postId ,String userId, String postTitle, String smarteditor, String[] delFile, MultipartFile[] files, RedirectAttributes redirectAttributes) {
 		logger.debug("PostController modifyPost()");
-		logger.debug("modify Post delFileId : {}", delFile);
 		
 		if(delFile != null && delFile.length > 0) {
 			fileService.delUpdateFiles(delFile);
@@ -289,7 +288,7 @@ public class PostController {
 	@RequestMapping(path = "/answerPost", method = RequestMethod.GET)
 	public String answerPostView(String userId, int postId, Model model) {
 		model.addAttribute("postId", postId);
-		return "post/answer";
+		return "tiles.answer";
 	}
 	
 	

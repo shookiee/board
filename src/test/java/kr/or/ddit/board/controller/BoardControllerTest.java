@@ -32,7 +32,7 @@ public class BoardControllerTest extends ControllerTestEnv{
 		String viewName = mav.getViewName();
 		
 		/***Then***/
-		assertEquals("board/board", viewName);
+		assertEquals("tiles.board", viewName);
 	}
 	
 	
@@ -59,7 +59,7 @@ public class BoardControllerTest extends ControllerTestEnv{
 		String viewName = mav.getViewName();
 		
 		/***Then***/
-		assertEquals("board/board", viewName);
+		assertEquals("tiles.board", viewName);
 	}
 
 	
