@@ -59,7 +59,7 @@
 				<div class="col-sm-8 blog-main">
 					<h2 class="sub-header">${boardVo.boardName }</h2>
 					<form id="frm" class="form-horizontal" role="form"
-						action="${cp }/downLoad"
+						action="${cp }/download"
 						enctype="mutipart/form-data" method="post">
 
 						<div class="form-group">

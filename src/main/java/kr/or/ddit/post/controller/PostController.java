@@ -326,4 +326,18 @@ public class PostController {
 		}
 		return "redirect:/post/answerPost";
 	}
+	
+	
+	/**
+	 * Method : downloadFile
+	 * 작성자 : SHOOKIE
+	 * 변경이력 :
+	 * @return
+	 * Method 설명 : 파일 다운로드
+	 */
+	@RequestMapping("/download")
+	public String downloadFile(Model model, String fileId) {
+		model.addAttribute("fileId", fileId);
+		return "downloadView";
+	}
 }

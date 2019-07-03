@@ -68,7 +68,7 @@
 		
 		$("#plusFile").on("click", function() {
 			if (count <= 5) {
-				$("#plus").after("<br><input type='file' name='file" +count+"'/>");
+				$("#plus").after('<br><input type="file" name="files">');
 				count += 1;
 			} else {
 				alert("파일 업로드는 최대 5개까지만 가능합니다.");
