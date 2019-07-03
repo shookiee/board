@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.or.ddit.board.model.BoardVO;
 import kr.or.ddit.post.model.PostVO;
 import kr.or.ddit.testenv.ControllerTestEnv;
+import kr.or.ddit.user.model.UserVO;
 
 public class PostControllerTest extends ControllerTestEnv {
 
@@ -244,4 +245,90 @@ public class PostControllerTest extends ControllerTestEnv {
 																						.andExpect(view().name("redirect:/post/readPost"));
 	}
 
+	
+	/**
+	 * Method : answerUploadTest
+	 * 작성자 : PC23
+	 * 변경이력 :
+	 * Method 설명 : 게시글 작성 시 파일 업로드 테스트
+	 * @throws Exception 
+	 */
+	@Test
+	public void postUploadTest() throws Exception {
+		/***Given***/
+		
+		File f = new File("src/test/resources/kr/or/ddit/testenv/sally.png");
+		MockMultipartFile file = new MockMultipartFile("uploadFile", f.getName(), "", new FileInputStream(f));
+		
+		/***When***/
+		MvcResult mvcResult = mockMvc.perform(fileUpload("/post/postForm").file(file)
+				.param("boardId", "2")
+				.param("userId", "brown")
+				.param("postTitle", "테스트 제목 13")
+				.param("smarteditor", "1234")).andReturn();
+		
+		ModelAndView mav = mvcResult.getModelAndView();
+		String viewName = mav.getViewName();
+		
+		/***Then***/
+		assertEquals("redirect:/post/readPost", viewName);
+	}
+	
+	
+	/**
+	 * Method : answerUploadTest
+	 * 작성자 : PC23
+	 * 변경이력 :
+	 * Method 설명 : 게시글 수정 시 파일 업로드 테스트
+	 * @throws Exception 
+	 */
+	@Test
+	public void modifyUploadTest() throws Exception {
+		/***Given***/
+		
+		File f = new File("src/test/resources/kr/or/ddit/testenv/sally.png");
+		MockMultipartFile file = new MockMultipartFile("uploadFile", f.getName(), "", new FileInputStream(f));
+		
+		/***When***/
+		MvcResult mvcResult = mockMvc.perform(fileUpload("/post/answerPost").file(file)
+				.param("postId", "1")
+				.param("userId", "brown")
+				.param("postTitle", "테스트 제목 1")
+				.param("smarteditor", "1234")).andReturn();
+		
+		ModelAndView mav = mvcResult.getModelAndView();
+		String viewName = mav.getViewName();
+		
+		/***Then***/
+		assertEquals("redirect:/post/readPost", viewName);
+	}
+	
+	
+	/**
+	* Method : answerUploadTest
+	* 작성자 : PC23
+	* 변경이력 :
+	* Method 설명 : 답글 작성 시 파일 업로드 테스트
+	 * @throws Exception 
+	*/
+	@Test
+	public void answerUploadTest() throws Exception {
+		/***Given***/
+		
+		File f = new File("src/test/resources/kr/or/ddit/testenv/sally.png");
+		MockMultipartFile file = new MockMultipartFile("uploadFile", f.getName(), "", new FileInputStream(f));
+
+		/***When***/
+		MvcResult mvcResult = mockMvc.perform(fileUpload("/post/answerPost").file(file)
+													.param("postId", "1")
+													.param("userId", "brown")
+													.param("postTitle", "테스트 제목 1")
+													.param("smarteditor", "1234")).andReturn();
+		
+		ModelAndView mav = mvcResult.getModelAndView();
+		String viewName = mav.getViewName();
+		
+		/***Then***/
+		assertEquals("redirect:/post/readPost", viewName);
+	}
 }
