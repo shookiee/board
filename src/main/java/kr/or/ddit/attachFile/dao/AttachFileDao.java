@@ -62,13 +62,13 @@ public class AttachFileDao implements IAttachFileDao {
 	 * Method : deleteFile
 	 * 작성자 : SHOOKIE
 	 * 변경이력 :
-	 * @param postId
+	 * @param delFileId
 	 * @return
 	 * Method 설명 : 게시글 수정 시 해당 게시글에 첨부된 파일 삭제
 	 */
 	@Override
-	public int deleteFile(int postId) {
-		return sqlSession.delete("file.deleteFile", postId);
+	public int deleteFile(String delFileId) {
+		return sqlSession.delete("file.deleteFile", delFileId);
 	}
 
 

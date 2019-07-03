@@ -65,18 +65,30 @@ public class AttachFileService implements IAttachFileService {
 		return fileDao.getFile(fileId);
 	}
 
-	
+
 	/**
-	 * Method : deleteFile
-	 * 작성자 : SHOOKIE
-	 * 변경이력 :
-	 * @param postId
-	 * @return
-	 * Method 설명 : 게시글 수정 시 해당 게시글에 첨부된 파일 삭제
-	 */
+	* Method : delUpdateFiles
+	* 작성자 : PC23
+	* 변경이력 :
+	* @param delFileIds
+	* Method 설명 : 게시글 수정 시 파일이 수정되었으면 기존의 파일 데이터 삭제
+	*/
 	@Override
-	public int deleteFile(int postId) {
-		return fileDao.deleteFile(postId);
+	public void delUpdateFiles(String[] delFileIds) {
+		int delCntSum = 0;
+		
+		for(String delFileId : delFileIds) {
+			int delCnt = fileDao.deleteFile(delFileId);
+			
+			if(delCnt != 1) {
+				break;
+			}
+			delCntSum += delCnt;
+		}
+		
 	}
+
+	
+	
 
 }

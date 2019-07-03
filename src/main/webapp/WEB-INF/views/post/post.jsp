@@ -115,7 +115,7 @@
 									</c:when>
 									<c:otherwise>
 										<li>
-											<a href="${cp }/post?boardId=${boardVo.boardId }&page=1&pageSize=${pageVo.pageSize}">≪</a>
+											<a href="${cp }/post/list?boardId=${boardVo.boardId }&page=1&pageSize=${pageVo.pageSize}">≪</a>
 										</li>
 									</c:otherwise>
 								</c:choose>
@@ -126,7 +126,7 @@
 									</c:when>
 									<c:otherwise>
 										<li>
-											<a href="${cp }/post?boardId=${boardVo.boardId }&page=${pageVo.page -1}&pageSize=${pageVo.pageSize}">＜</a>
+											<a href="${cp }/post/list?boardId=${boardVo.boardId }&page=${pageVo.page -1}&pageSize=${pageVo.pageSize}">＜</a>
 										</li>
 									</c:otherwise>
 								</c:choose>
@@ -138,7 +138,7 @@
 									 			<li class="active"><span>${i }</span></li>
 									 			</c:when>
 											<c:otherwise>
-												<li><a href="${cp }/post?boardId=${boardVo.boardId }&page=${i}&pageSize=${pageVo.pageSize}">${i }</a></li>
+												<li><a href="${cp }/post/list?boardId=${boardVo.boardId }&page=${i}&pageSize=${pageVo.pageSize}">${i }</a></li>
 											</c:otherwise>
 										</c:choose>
 									</li>
@@ -150,7 +150,7 @@
 										</c:when>
 	
 										<c:otherwise>
-											<li><a href="${cp }/post?boardId=${boardVo.boardId }&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">＞</a></li>
+											<li><a href="${cp }/post/list?boardId=${boardVo.boardId }&page=${pageVo.page + 1}&pageSize=${pageVo.pageSize}">＞</a></li>
 										</c:otherwise>								
 									</c:choose>
 
@@ -160,7 +160,7 @@
 										</c:when>
 	
 										<c:otherwise>
-											<li><a href="${cp }/post?boardId=${boardVo.boardId }&page=${pagination}&pageSize=${pageVo.pageSize}">≫</a></li>
+											<li><a href="${cp }/post/list?boardId=${boardVo.boardId }&page=${paginationSize}&pageSize=${pageVo.pageSize}">≫</a></li>
 										</c:otherwise>								
 									</c:choose>
 							</ul>

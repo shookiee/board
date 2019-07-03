@@ -22,6 +22,9 @@
 <script>
 	$(document).ready(function() {
 		$(".filelabel").on("click", function() {
+// 			alert($(this).next().val())
+			$("#fileId").val($(this).next().val())
+// 			alert($("#fileId").val())
 			$("#frm").submit();
 		})
 
@@ -59,8 +62,9 @@
 				<div class="col-sm-8 blog-main">
 					<h2 class="sub-header">${boardVo.boardName }</h2>
 					<form id="frm" class="form-horizontal" role="form"
-						action="${cp }/download"
-						enctype="mutipart/form-data" method="post">
+						action="${cp }/post/download" method="post"
+						 >
+						 <input type="hidden" id="fileId" name="fileId" >
 
 						<div class="form-group">
 							<label for="postTitle" class="col-sm-2 control-label">제목</label>
@@ -87,9 +91,9 @@
 							<label for="file" class="col-sm-2 control-label">첨부파일</label>
 							<div class="col-sm-10">
 								<c:forEach items="${fileList }" var="file">
-									<input type="hidden" class="hiddenFile" name="fileId"
-										value="${file.fileId}">
 									<label class="control-label filelabel">${file.fileName}</label>
+									<input type="hidden" class="hiddenFile" name="fileIds"
+										value="${file.fileId}">
 									<br>
 								</c:forEach>
 							</div>
@@ -101,12 +105,12 @@
 							<div class="col-sm-offset-1 col-sm-12 ">
 								<a
 									href="${cp }/post/answerPost?postId=${postVo.postId}"
-									id="answerBtn" class="btn btn-default" type="submit" method="get" >답글</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									id="answerBtn" class="btn btn-default" type="submit"  >답글</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 								<c:if test="${USER_INFO.userId eq postVo.userId }">
 									<a
 										href="${cp }/post/modifyPost?postId=${postVo.postId}"
-										id="updateBtn" class="btn btn-default" type="submit" method="get">수정</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										id="updateBtn" class="btn btn-default" type="submit">수정</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<a
 										href="${cp }/post/deletePost?postId=${postVo.postId}"
 										id="deleteBtn" class="btn btn-default" type="submit">삭제</a>

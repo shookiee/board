@@ -38,7 +38,7 @@ public class Download extends AbstractView {
 		
 		byte[] buff = new byte[1024];
 		int len = -1;
-		
+		 
 		while( (len = fis.read(buff)) != -1 ) {
 			sos.write(buff);
 		}

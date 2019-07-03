@@ -49,7 +49,7 @@
 	
 	
 	<!-- 게시글 조회 시 첨부 파일 클릭했을 때 다운로드 뷰로 이동-->
-	<bean id="downloadView"  class="kr.or.ddit.attachFile.controller.Download"></bean>
+	<bean id="downloadView"  class="kr.or.ddit.attachFile.controller.Download"/>
 	
 	<!-- multipart resolver -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

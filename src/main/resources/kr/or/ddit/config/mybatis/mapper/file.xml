@@ -24,9 +24,9 @@ FROM	ATTACHFILE
 WHERE	FILEID = #{fileId}
 </select>
 
-<delete id="deleteFile" parameterType="int">
+<delete id="deleteFile" parameterType="string">
 DELETE 
 FROM	ATTACHFILE
-WHERE	POSTID = #{postId}
+WHERE	FILEID = #{fileId}
 </delete>
 </mapper>

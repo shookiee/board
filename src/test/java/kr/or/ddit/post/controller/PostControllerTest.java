@@ -164,6 +164,7 @@ public class PostControllerTest extends ControllerTestEnv {
 		/***When***/
 		mockMvc.perform(fileUpload("/post/modifyPost").file(file)
 										.param("postId", "1")
+										.param("userId", "brown")
 										.param("postTitle", "Title")
 										.param("smarteditor", "Content"))
 										.andExpect(view().name("redirect:/post/readPost"));

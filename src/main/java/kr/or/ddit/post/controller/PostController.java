@@ -1,6 +1,7 @@
 package kr.or.ddit.post.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,15 +63,15 @@ public class PostController {
 		map.put("boardId", boardId);
 		map.put("page", pageVo.getPage());
 		map.put("pageSize", pageVo.getPageSize());
-		
+
 		Map<String, Object> resultMap = postService.postPagingList(map);
 		int paginationSize = (int) resultMap.get("paginationSize");
-		
 		List<PostVO> postList = (List<PostVO>) resultMap.get("postList");
 		
 		model.addAttribute("map", map);
 		model.addAttribute("postList", postList);
 		model.addAttribute("paginationSize", paginationSize);
+		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("boardVo", boardService.getBoard(boardId));
 		
 		logger.debug("postController boardId : {}", boardId);
@@ -151,7 +152,12 @@ public class PostController {
 					String ext = PartUtil.getExt(file.getOriginalFilename());
 					String fileName = UUID.randomUUID().toString();
 					String fileId = path + File.separator + fileName + ext;
-				
+					
+					try {
+						file.transferTo(new File(fileId));
+					} catch (IllegalStateException | IOException e) {
+						e.printStackTrace();
+					}
 					AttachFileVO fileVO = new AttachFileVO(fileId, postId, path, file.getOriginalFilename());
 					uploadFileList.add(fileVO);
 				}
@@ -180,9 +186,11 @@ public class PostController {
 	public String modifyPostView(int postId, Model model) {
 		PostVO postVo = new PostVO();
 		postVo = postService.getPost(postId);
+		List<AttachFileVO> fileList = fileService.getFileList(postId);
 		
 		model.addAttribute("postId", postId);
 		model.addAttribute("postVo", postVo);
+		model.addAttribute("fileList", fileList);
 		
 		return "post/modify";
 	}
@@ -199,8 +207,13 @@ public class PostController {
 	* Method 설명 : 게시글 수정
 	*/
 	@RequestMapping(path = "/modifyPost", method = RequestMethod.POST)
-	public String modifyPost(int postId ,String userId, String postTitle, String smarteditor, MultipartFile[] files, RedirectAttributes redirectAttributes) {
+	public String modifyPost(int postId ,String userId, String postTitle, String smarteditor, String[] delFile, MultipartFile[] files, RedirectAttributes redirectAttributes) {
 		logger.debug("PostController modifyPost()");
+		logger.debug("modify Post delFileId : {}", delFile);
+		
+		if(delFile != null && delFile.length > 0) {
+			fileService.delUpdateFiles(delFile);
+		}
 		
 		PostVO postVo = new PostVO();
 		postVo.setUserId(userId);
@@ -221,7 +234,11 @@ public class PostController {
 					String ext = PartUtil.getExt(file.getOriginalFilename());
 					String fileName = UUID.randomUUID().toString();
 					String fileId = path + File.separator + fileName + ext;
-				
+					try {
+						file.transferTo(new File(fileId));
+					} catch (IllegalStateException | IOException e) {
+						e.printStackTrace();
+					}
 					AttachFileVO fileVo = new AttachFileVO(fileId, postVo.getPostId(), path, file.getOriginalFilename());
 					uploadFileList.add(fileVo);
 				}
@@ -232,7 +249,7 @@ public class PostController {
 			return "redirect:/post/readPost";
 		} else {
 			redirectAttributes.addAttribute("postId", postVo.getPostId());
-			return "redirect:/post/modify";
+			return "redirect:/post/modifyPost";
 		}
 	}
 	
@@ -314,7 +331,11 @@ public class PostController {
 					String ext = PartUtil.getExt(file.getOriginalFilename());
 					String fileName = UUID.randomUUID().toString();
 					String fileId = path + File.separator + fileName + ext;
-				
+					try {
+						file.transferTo(new File(fileId));
+					} catch (IllegalStateException | IOException e) {
+						e.printStackTrace();
+					}
 					AttachFileVO fileVO = new AttachFileVO(fileId, postVo.getPostId(), path, file.getOriginalFilename());
 					uploadFileList.add(fileVO);
 				}
@@ -338,6 +359,7 @@ public class PostController {
 	@RequestMapping("/download")
 	public String downloadFile(Model model, String fileId) {
 		model.addAttribute("fileId", fileId);
+		logger.debug("PostController =====================================================================");
 		return "downloadView";
 	}
 }
